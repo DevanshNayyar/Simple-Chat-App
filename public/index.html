@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WhatsApp-Like Chat</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Chatting Going on...</h1>
+        </div>
+        <div class="chat-messages" id="messages">
+            <!-- Messages will be added here dynamically -->
+        </div>
+        <div class="chat-input">
+            <form id="form" action="">
+                <input id="input" autocomplete="off" placeholder="Type a message" />
+                <button id="send-button">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            var socket = io();
+            
+            $('#form').submit(function () {
+                var message = $('#input').val();
+                
+                // Replace "hi:" with a waving hand emoji
+                message = message.replace('hi:', '👋');
+                message = message.replace('react:','☠️');
+                message = message.replace('lol:', '😂');
+                message = message.replace('like:','❤️');
+                message = message.replace('congratulations:','🥳');
+                socket.emit('chat message', message);
+                $('#input').val('');
+                return false;
+            });
+
+            socket.on('chat message', function (msg) {
+                $('#messages').append($('<div class="message">').text(msg));
+                $('#messages').scrollTop($('#messages')[0].scrollHeight);
+            });
+        });
+    </script>
+</body>
+</html>
