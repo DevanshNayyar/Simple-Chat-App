@@ -26,19 +26,20 @@
     <script>
         $(function () {
             var socket = io();
-            
-            $('#form').submit(function () {
+
+            $('#form').submit(function (e) {
+                e.preventDefault();
                 var message = $('#input').val();
                 
-                // Replace "hi:" with a waving hand emoji
+                // Replace keywords with emojis
                 message = message.replace('hi:', '👋');
-                message = message.replace('react:','☠️');
+                message = message.replace('react:', '☠️');
                 message = message.replace('lol:', '😂');
-                message = message.replace('like:','❤️');
-                message = message.replace('congratulations:','🥳');
+                message = message.replace('like:', '❤️');
+                message = message.replace('congratulations:', '🥳');
+                
                 socket.emit('chat message', message);
                 $('#input').val('');
-                return false;
             });
 
             socket.on('chat message', function (msg) {

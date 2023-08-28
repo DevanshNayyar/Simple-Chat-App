@@ -1,4 +1,3 @@
-
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
@@ -21,8 +20,6 @@ io.on('connection', (socket) => {
         io.emit('chat message', msg);
     });
 });
-
-
 
 server.listen(3000, () => {
     console.log('Listening on *:3000');
